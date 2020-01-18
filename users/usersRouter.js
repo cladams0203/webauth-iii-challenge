@@ -1,5 +1,5 @@
 const router = require('express').Router()
-
+const bcrypt = require('bcryptjs')
 const users = require('./usersModal')
 
 router.get('/', (req,res) => {
@@ -18,7 +18,7 @@ router.post('/register', (req,res) => {
     if(!username || !password) {
         res.status(403).json({message: 'invalid username and password'})
     }else{
-        users.insert(req.body)
+        users.insert({username, password: bcrypt.hashSync(password, 4)})
             .then(user => {
                 res.status(200).json({message: 'register successful', username: username})
             })
@@ -37,6 +37,7 @@ router.post('/login', (req,res) => {
     }else{
         users.findByUsername(username)
             .then(user => {
+                if(user && bcrypt.compareSync(password, user.password))
                 res.status(200).json({message: 'login successful', username: username})
             })
             .catch(err => {
