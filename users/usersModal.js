@@ -16,6 +16,6 @@ function insert(user) {
     return db('users').insert(user)
 }
 
-function findByUsername(user) {
-    return db('users').where({user}).first()
+function findByUsername(username) {
+    return db('users').where({username}).first()
 }
