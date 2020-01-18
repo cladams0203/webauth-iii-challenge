@@ -30,4 +30,20 @@ router.post('/register', (req,res) => {
 
 })
 
+router.post('/login', (req,res) => {
+    const { username, password } = req.body
+    if(!username || !password) {
+        res.status(403).json({message: 'invalid username and password'})
+    }else{
+        users.findByUsername(username)
+            .then(user => {
+                res.status(200).json({message: 'login successful', username: username})
+            })
+            .catch(err => {
+                console.log(err)
+                res.status(500).json({message: 'failed to login'})
+            })
+    }
+})
+
 module.exports = router
