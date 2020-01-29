@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken')
 function generateToken(user) {
     const payload = {
         username: user.username,
+        department: user.department
     }
     const options = {
         expiresIn: '1d'
@@ -14,10 +15,17 @@ function generateToken(user) {
 }
 
 router.get('/', validateToken, (req,res) => {
+    console.log(req.username)
     users.find()
         .then(user => {
-            const {username, id, department} = user[0]
-            res.status(200).json({username, id, department})
+            const filtered = user.filter(item => {
+                return item.department === req.username.department
+            
+            })
+            const users = filtered.map(item => {
+                return { id: item.id, username: item.username, department: item.department }
+            })
+            res.status(200).json(users)
         })
         .catch(err => {
             console.log(err)
