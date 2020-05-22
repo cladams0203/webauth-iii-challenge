@@ -4,9 +4,16 @@
   "description": "- Authentication.\r - Express Middleware.\r - JSON Web Tokens (JWTs).\r - Hashing Passwords.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "cross-env FOOBAR=testing jest --watch --verbose --coverage --runInBand",
     "server": "nodemon index.js",
     "start": "node index.js"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "**/*.js",
+      "!**/node_modules/**",
+      "!**/coverage/**"
+    ]
   },
   "repository": {
     "type": "git",
@@ -22,11 +29,14 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
+    "jest": "^26.0.1",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.20.8",
     "sqlite3": "^4.1.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2"
+    "cross-env": "^7.0.2",
+    "nodemon": "^2.0.2",
+    "supertest": "^4.0.2"
   }
 }
